@@ -1,26 +1,80 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import AuthorQuiz from "./Component/AuthorQuiz";
+import { shuffle, sample } from "underscore";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+class App extends Component {
+  render() {
+    const authors = [
+      {
+        name: "Mark Twain",
+        imageUrl: "images/logo192.png",
+        imageSource: "Wikimedia Commons",
+        books: [
+          "The Adventures of Huckleberry Finn",
+          "Life on the Missisipi",
+          "Roughing it"
+        ]
+      },
+      {
+        name: "Mark Twain",
+        imageUrl: "images/logo192.png",
+        imageSource: "Wikimedia Commons",
+        books: [
+          "The Adventures of Huckleberry Finn",
+          "Life on the Missisipi",
+          "Roughing it"
+        ]
+      },
+      {
+        name: "Mark Twain",
+        imageUrl: "images/logo192.png",
+        imageSource: "Wikimedia Commons",
+        books: [
+          "The Adventures of Huckleberry Finn",
+          "Life on the Missisipi",
+          "Roughing it"
+        ]
+      },
+      {
+        name: "Mark Twain",
+        imageUrl: "images/logo192.png",
+        imageSource: "Wikimedia Commons",
+        books: [
+          "The Adventures of Huckleberry Finn",
+          "Life on the Missisipi",
+          "Roughing it"
+        ]
+      }
+    ];
+
+    const getTurnData = authors => {
+      const allBooks = authors.reduce(function(p, c, i) {
+        return p.concat(c.books);
+      }, []);
+
+      const fourRandomBooks = shuffle(allBooks).slice(0, 4);
+      const answer = sample(fourRandomBooks);
+
+      return {
+        books: fourRandomBooks,
+        authors: authors.find(author =>
+          author.books.some(title => title === answer)
+        )
+      };
+    };
+
+    const state = {
+      turnData: getTurnData(authors)
+    };
+
+    return (
+      <div className="App">
+        <AuthorQuiz {...state} />
+      </div>
+    );
+  }
 }
 
 export default App;
